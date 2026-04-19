@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import movieRoutes from './routes/movieRoutes.js';
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 // /api/users pour le profil
 app.use('/api/users', userRoutes);
+// /api/movies catalogue (JWT requis)
+app.use('/api/movies', movieRoutes);
 
 // Middleware global de gestion des erreurs
 app.use((err, req, res, next) => {

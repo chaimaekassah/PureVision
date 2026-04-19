@@ -4,6 +4,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Browse from './pages/Browse';
+import Watch from './pages/Watch';
 
 function App() {
   return (
@@ -11,7 +13,16 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        
+
+        <Route
+          path="/browse"
+          element={
+            <ProtectedRoute>
+              <Browse />
+            </ProtectedRoute>
+          }
+        />
+
         <Route 
           path="/profile" 
           element={
@@ -21,10 +32,18 @@ function App() {
           } 
         />
 
+        <Route
+          path="/watch/:id"
+          element={
+            <ProtectedRoute>
+              <Watch />
+            </ProtectedRoute>
+          }
+        />
+
         <Route 
           path="/admin" 
           element={
-            // Composant limité aux administrateurs
             <ProtectedRoute requiredRole="admin">
               <Profile />
             </ProtectedRoute>

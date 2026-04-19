@@ -1,15 +1,9 @@
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import AppNavbar from '../components/AppNavbar';
 
 const Profile = () => {
-  const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const { user } = useContext(AuthContext);
 
   if (!user) return null;
 
@@ -26,15 +20,7 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="auth-logo">▶ StreamNova</div>
-        <div className="nav-buttons">
-          <button onClick={handleLogout} className="btn-logout">
-            Déconnexion
-          </button>
-        </div>
-      </nav>
+      <AppNavbar />
 
       {/* Hero Section */}
       <div className="profile-hero">

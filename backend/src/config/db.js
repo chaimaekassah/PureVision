@@ -12,6 +12,7 @@ const pool = new Pool({
   database: process.env.DB_NAME || 'netflix_clone',
   password: process.env.DB_PASSWORD || 'password',
   port: process.env.DB_PORT || 5432,
+  options: '-c client_encoding=UTF8',
 });
 
 // Test rapide de la connexion au démarrage
