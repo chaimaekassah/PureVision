@@ -11,7 +11,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Configuration de la DB (Ton code)
 const pool = new Pool({
   host: "db",
   port: 5432,
@@ -20,15 +19,12 @@ const pool = new Pool({
   database: "testdb"
 });
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// --- ROUTES  (Auth & Profil) ---
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
-// --- TES ROUTES (Vidéos & Streaming - Personne 3) ---
 app.get("/api/videos", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM videos");
@@ -48,7 +44,6 @@ app.get("/api/videos/:id", async (req, res) => {
   }
 });
 
-// Middleware global de gestion des erreurs (Code binôme)
 app.use((err, req, res, next) => {
   console.error("Erreur serveur:", err.stack);
   res.status(500).json({ error: 'Une erreur interne est survenue sur le serveur' });

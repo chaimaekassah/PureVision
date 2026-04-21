@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 
-// Import des contrôleurs (Syntaxe require cohérente)
 const { register, login } = require('../controllers/authController.js');
 
 router.post(

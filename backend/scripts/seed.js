@@ -4,17 +4,16 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
   user: 'postgres',
-  host: '127.0.0.1', // On cible localhost car on lance le script depuis Windows
+  host: '127.0.0.1',
   database: 'testdb',
   password: '1234',
   port: 5433,
 });
 
-// Fonction de conversion automatique
 const encodeImage = (fileName) => {
     const filePath = path.join(__dirname, '../assets/posters', fileName);
     if (!fs.existsSync(filePath)) {
-        console.warn(`⚠️ Image non trouvée : ${fileName}`);
+        console.warn(`Image non trouvée : ${fileName}`);
         return null;
     }
     const imageBuffer = fs.readFileSync(filePath);
@@ -23,9 +22,8 @@ const encodeImage = (fileName) => {
 
 async function runSeed() {
     try {
-        console.log("🚀 Nettoyage et remplissage de la base de données...");
+        console.log("Nettoyage et remplissage de la base de données...");
         
-        // On vide la table pour éviter les doublons
         await pool.query('TRUNCATE TABLE videos RESTART IDENTITY');
 
         const BUCKET_URL = "http://localhost:9000/videos-bucket/";
@@ -59,19 +57,18 @@ async function runSeed() {
 
         for (let v of catalogue) {
             const base64Img = encodeImage(v.poster);
-            // encodeURIComponent gère les espaces et accents pour l'URL
             const urlVideo = BUCKET_URL + encodeURIComponent(v.fichier);
 
             await pool.query(
                 'INSERT INTO videos (titre, description, url_video, photo_couverture, categorie) VALUES ($1, $2, $3, $4, $5)',
                 [v.titre, `Découvrez le film ${v.titre} sur PureVision.`, urlVideo, base64Img, v.cat]
             );
-            console.log(`✅ ${v.titre} inséré avec succès.`);
+            console.log(`${v.titre} inséré avec succès.`);
         }
 
-        console.log("\n✨ Terminé ! Tout est prêt pour le Frontend.");
+        console.log("\nTerminé.");
     } catch (err) {
-        console.error("❌ Erreur :", err);
+        console.error("Erreur :", err);
     } finally {
         pool.end();
     }
